@@ -7,5 +7,4 @@ public class Main {
 		reader = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println(Short.parseShort(reader.readLine())-Short.parseShort(reader.readLine()));
 	}
-
 }
