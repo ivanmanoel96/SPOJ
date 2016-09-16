@@ -4,51 +4,47 @@ public class Main {
 	static BufferedReader reader;
 	static short alunos;
 	static short turmas;
-	static boolean primeiro;
 	static short media;
 	static short maiorMedia;
 	static StringBuilder saida;
 	static StringBuilder alunosTurma;
+	static String[] entrada;
 	
 	public static void main(String[] args) throws IOException {
 		reader = new BufferedReader(new InputStreamReader(System.in));
 		saida = new StringBuilder();
 		alunosTurma = new StringBuilder();
-		primeiro = true;
-		geraMedias();
+		
+		alunos = Short.parseShort(reader.readLine());
+		avaliaMedia();
+		while (alunos > 0) {
+			saida.append('\n');
+			saida.append('\n');
+			avaliaMedia();
+		}
+		System.out.print(saida);
 	}
 	
-	public static void geraMedias() throws IOException {
-		alunos = Short.parseShort(reader.readLine());
-		if (alunos == 0) {
-			System.out.println(saida);
-			System.exit(0);
-		}
-		if (!primeiro) {
-			saida.append('\n');
-			saida.append('\n');
-		}
+	public static void avaliaMedia() throws IOException {
 		turmas++;
 		saida.append("Turma ");
 		saida.append(turmas);
 		saida.append('\n');
-		String[] entrada;
-		maiorMedia = 0;
-		for (short alun = 0; alun < alunos; alun++) {
+		maiorMedia = -1;
+		for (short aluno = 0; aluno < alunos; aluno++) {
 			entrada = reader.readLine().split(" ");
 			media = Short.parseShort(entrada[1]);
-			if (media <= 100 & media >= maiorMedia) {
+			if (media >= maiorMedia) {
 				if (media > maiorMedia)
 					alunosTurma.delete(0, alunosTurma.length());
 				
 				maiorMedia = media;
-				alunosTurma.append(Short.parseShort(entrada[0]));
+				alunosTurma.append(entrada[0]);
 				alunosTurma.append(' ');
 			}
 		}
 		alunosTurma.delete(alunosTurma.length()-1, alunosTurma.length());
 		saida.append(alunosTurma);
-		primeiro = false;
-		geraMedias();
+		alunos = Short.parseShort(reader.readLine());
 	}
 }
