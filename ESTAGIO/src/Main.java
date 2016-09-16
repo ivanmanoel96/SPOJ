@@ -7,15 +7,14 @@ public class Main {
 	static short media;
 	static short maiorMedia;
 	static StringBuilder saida;
-	static StringBuilder alunosTurma;
 	static String[] entrada;
+	static short alunIni;
 	
 	public static void main(String[] args) throws IOException {
 		reader = new BufferedReader(new InputStreamReader(System.in));
 		saida = new StringBuilder();
-		alunosTurma = new StringBuilder();
 		
-		alunos = Short.parseShort(reader.readLine());
+		alunos = Short.parseShort(reader.readLine());		
 		avaliaMedia();
 		while (alunos > 0) {
 			saida.append('\n');
@@ -31,20 +30,20 @@ public class Main {
 		saida.append(turmas);
 		saida.append('\n');
 		maiorMedia = -1;
+		alunIni = (short)saida.length();
 		for (short aluno = 0; aluno < alunos; aluno++) {
 			entrada = reader.readLine().split(" ");
 			media = Short.parseShort(entrada[1]);
 			if (media >= maiorMedia) {
 				if (media > maiorMedia)
-					alunosTurma.delete(0, alunosTurma.length());
+					saida.delete(alunIni, saida.length());
 				
 				maiorMedia = media;
-				alunosTurma.append(entrada[0]);
-				alunosTurma.append(' ');
+				saida.append(entrada[0]);
+				saida.append(' ');
 			}
 		}
-		alunosTurma.delete(alunosTurma.length()-1, alunosTurma.length());
-		saida.append(alunosTurma);
+		saida.delete(saida.length()-1, saida.length());
 		alunos = Short.parseShort(reader.readLine());
 	}
 }
