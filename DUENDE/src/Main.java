@@ -9,6 +9,7 @@ public class Main {
 	static short linhaAtual;
 	static short colunaAtual;
 	static BufferedReader reader;
+	static String result;
 	
 	public static void main(String[] args) throws IOException {
 		reader = new BufferedReader(new InputStreamReader(System.in));
@@ -31,18 +32,17 @@ public class Main {
     				colunaAtual = coluna;
     			}
             }
-            
             caverna[linha] = saida;
         }
         
-        distancias = new short[Short.parseShort(linhas+""+colunas)];
+        distancias = new short[linhas+colunas];
 		fila = new StringBuilder();
 		fila.append(linhaAtual);
 		fila.append(colunaAtual);
 		fila.append(' ');
 		
         while (fila.length() > 0) {        	
-        	String result = fila.toString().split(" ")[0];
+        	result = fila.toString().split(" ")[0];
     		fila.delete(0, result.length()+1);
     		linhaAtual = Short.parseShort(String.valueOf(result.charAt(0)));
         	colunaAtual = Short.parseShort(String.valueOf(result.charAt(1)));
@@ -62,10 +62,10 @@ public class Main {
     }
 	
 	public static void visitaProximaSala(short linha, short coluna) {
-		if (caverna[linha][coluna] != 2 & caverna[linha][coluna] != 3) {
-			distancias[Short.parseShort(linha+""+coluna)] = (short)(distancias[Short.parseShort(linhaAtual+""+colunaAtual)]+1);
+		if (caverna[linha][coluna] != 3 & caverna[linha][coluna] != 2) {
+			distancias[linha+coluna] = (short)(distancias[linhaAtual+colunaAtual]+1);
 			if (caverna[linha][coluna] == 0) {
-				System.out.println(distancias[Short.parseShort(linha+""+coluna)]);
+				System.out.print(distancias[linha+coluna]);
 				System.exit(0);
 			}
 			fila.append(linha);
