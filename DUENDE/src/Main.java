@@ -13,28 +13,9 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		reader = new BufferedReader(new InputStreamReader(System.in));
-		String[] entrada = reader.readLine().split(" ");
-        short[] saida = new short[entrada.length];
-        for (short column = 0; column < entrada.length; column++)
-            saida[column] = Short.parseShort(entrada[column]);
 		
-		linhas = saida[0];
-		colunas = saida[1];
-        caverna = new short[linhas][colunas];
-        
-        for (short linha = 0; linha < linhas; linha++) {
-        	entrada = reader.readLine().split(" ");
-            saida = new short[entrada.length];
-            for (short coluna = 0; coluna < entrada.length; coluna++) {
-                saida[coluna] = Short.parseShort(entrada[coluna]);
-                if (saida[coluna] == 3) {
-    				linhaAtual = linha;
-    				colunaAtual = coluna;
-    			}
-            }
-            caverna[linha] = saida;
-        }
-        
+		leEntrada();
+		
         distancias = new short[linhas+colunas];
 		fila = new StringBuilder();
 		fila.append(linhaAtual);
@@ -60,6 +41,27 @@ public class Main {
         		visitaProximaSala(linhaAtual, (short)(colunaAtual+1));
         }
     }
+	
+	public static void leEntrada() throws IOException {
+		String[] entrada = reader.readLine().split(" ");
+        
+		linhas = Short.parseShort(entrada[0]);
+		colunas = Short.parseShort(entrada[1]);
+        caverna = new short[linhas][colunas];
+        
+        for (short linha = 0; linha < linhas; linha++) {
+        	entrada = reader.readLine().split(" ");
+            short[] saida = new short[entrada.length];
+            for (short coluna = 0; coluna < entrada.length; coluna++) {
+                saida[coluna] = Short.parseShort(entrada[coluna]);
+                if (saida[coluna] == 3) {
+    				linhaAtual = linha;
+    				colunaAtual = coluna;
+    			}
+            }
+            caverna[linha] = saida;
+        }
+	}
 	
 	public static void visitaProximaSala(short linha, short coluna) {
 		if (caverna[linha][coluna] != 3 & caverna[linha][coluna] != 2) {
