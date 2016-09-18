@@ -29,16 +29,16 @@ public class Main {
         	colunaAtual = Short.parseShort(String.valueOf(result.charAt(1)));
         	
         	if (linhaAtual-1 >= 0)
-        		visitaProximaSala((short)(linhaAtual-1), colunaAtual);
+        		visitaProximaSala(linhaAtual-1, colunaAtual);
         	
         	if (colunaAtual-1 >= 0)
-        		visitaProximaSala(linhaAtual, (short)(colunaAtual-1));
+        		visitaProximaSala(linhaAtual, colunaAtual-1);
         	
         	if (linhaAtual+1 < linhas)
-        		visitaProximaSala((short)(linhaAtual+1), colunaAtual);
+        		visitaProximaSala(linhaAtual+1, colunaAtual);
         	
         	if (colunaAtual+1 < colunas)
-        		visitaProximaSala(linhaAtual, (short)(colunaAtual+1));
+        		visitaProximaSala(linhaAtual, colunaAtual+1);
         }
     }
 	
@@ -63,7 +63,7 @@ public class Main {
         }
 	}
 	
-	public static void visitaProximaSala(short linha, short coluna) {
+	public static void visitaProximaSala(int linha, int coluna) {
 		if (caverna[linha][coluna] != 3 & caverna[linha][coluna] != 2) {
 			distancias[linha+coluna] = (short)(distancias[linhaAtual+colunaAtual]+1);
 			if (caverna[linha][coluna] == 0) {
