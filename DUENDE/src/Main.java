@@ -1,79 +1,78 @@
 import java.io.*;
 
 public class Main {
-	static short[][] caverna;
-	static short[] distancias;
-	static StringBuilder fila;
-	static short linhas;
-	static short colunas;
-	static short linhaAtual;
-	static short colunaAtual;
+	static short[][] cave;
+	static short[] distance;
+	static StringBuilder queue;
+	static short lines;
+	static short columns;
+	static short currentLine;
+	static short currentColumn;
 	static BufferedReader reader;
 	static String result;
 	
 	public static void main(String[] args) throws IOException {
-		reader = new BufferedReader(new InputStreamReader(System.in));
+		readInput();
 		
-		leEntrada();
+        distance = new short[lines+columns];
+		queue = new StringBuilder();
+		queue.append(currentLine);
+		queue.append(currentColumn);
+		queue.append(" ");
 		
-        distancias = new short[linhas+colunas];
-		fila = new StringBuilder();
-		fila.append(linhaAtual);
-		fila.append(colunaAtual);
-		fila.append(' ');
-		
-        while (fila.length() > 0) {        	
-        	result = fila.toString().split(" ")[0];
-    		fila.delete(0, result.length()+1);
-    		linhaAtual = Short.parseShort(String.valueOf(result.charAt(0)));
-        	colunaAtual = Short.parseShort(String.valueOf(result.charAt(1)));
+        while (queue.length() > 0) {        	
+        	result = queue.toString().split(" ")[0];
+    		queue.delete(0, result.length()+1);
+    		currentLine = Short.parseShort(String.valueOf(result.charAt(0)));
+        	currentColumn = Short.parseShort(String.valueOf(result.charAt(1)));
         	
-        	if (linhaAtual-1 >= 0)
-        		visitaProximaSala(linhaAtual-1, colunaAtual);
+        	if (currentColumn-1 >= 0)
+        		visitNextRoom(currentLine, currentColumn-1);
         	
-        	if (colunaAtual-1 >= 0)
-        		visitaProximaSala(linhaAtual, colunaAtual-1);
+        	if (currentLine+1 < lines)
+        		visitNextRoom(currentLine+1, currentColumn);
         	
-        	if (linhaAtual+1 < linhas)
-        		visitaProximaSala(linhaAtual+1, colunaAtual);
-        	
-        	if (colunaAtual+1 < colunas)
-        		visitaProximaSala(linhaAtual, colunaAtual+1);
+        	if (currentColumn+1 < columns)
+        		visitNextRoom(currentLine, currentColumn+1);
+
+        	if (currentLine-1 >= 0)
+        		visitNextRoom(currentLine-1, currentColumn);
         }
     }
 	
-	public static void leEntrada() throws IOException {
-		String[] entrada = reader.readLine().split(" ");
+	public static void readInput() throws IOException {
+		reader = new BufferedReader(new InputStreamReader(System.in));
+		String[] input = reader.readLine().split(" ");
         
-		linhas = Short.parseShort(entrada[0]);
-		colunas = Short.parseShort(entrada[1]);
-        caverna = new short[linhas][colunas];
+		lines = Short.parseShort(input[0]);
+		columns = Short.parseShort(input[1]);
+        cave = new short[lines][columns];
         
-        for (short linha = 0; linha < linhas; linha++) {
-        	entrada = reader.readLine().split(" ");
-            short[] saida = new short[entrada.length];
-            for (short coluna = 0; coluna < entrada.length; coluna++) {
-                saida[coluna] = Short.parseShort(entrada[coluna]);
-                if (saida[coluna] == 3) {
-    				linhaAtual = linha;
-    				colunaAtual = coluna;
+        for (short line = 0; line < lines; line++) {
+        	input = reader.readLine().split(" ");
+            short[] output = new short[input.length];
+            for (short column = 0; column < input.length; column++) {
+                output[column] = Short.parseShort(input[column]);
+                if (output[column] == 3) {
+    				currentLine = line;
+    				currentColumn = column;
     			}
             }
-            caverna[linha] = saida;
+            cave[line] = output;
         }
 	}
 	
-	public static void visitaProximaSala(int linha, int coluna) {
-		if (caverna[linha][coluna] != 3 & caverna[linha][coluna] != 2) {
-			distancias[linha+coluna] = (short)(distancias[linhaAtual+colunaAtual]+1);
-			if (caverna[linha][coluna] == 0) {
-				System.out.print(distancias[linha+coluna]);
+	public static void visitNextRoom(int line, int column) {
+		if (cave[line][column] != 3 & cave[line][column] != 2) {
+			distance[line+column] = (short)(distance[currentLine+currentColumn]+1);
+			if (cave[line][column] == 0) {
+				System.out.println(distance[line+column]);
 				System.exit(0);
 			}
-			fila.append(linha);
-			fila.append(coluna);
-			fila.append(' ');
-			caverna[linha][coluna] = 3;
+			queue.append(line);
+			queue.append(column);
+			queue.append(' ');
+			cave[line][column] = 3;
 		}
 	}
 }
