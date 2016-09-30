@@ -3,121 +3,133 @@ import java.util.*;
 
 public class Main {
 	static BufferedReader reader;
-	static Map<String, String[]> exigenciaAmigos;
+	static Map<String, String[]> amigoExigencias;
 	static StringBuilder saida;
-	static StringBuilder amigos;
-	static String[] entrada;
-	static String[] amigosExigentes;
-	static short qtdAmigos;
-	static short amigosProc;
-	static short amigosExi;
+	static StringBuilder listaPessoas;
+	static StringBuilder listaAmigos;
+	static StringBuilder listaExigenciasAmigo;
+	static String[] entrada;	
+	static String[] exigenciasAmigo;
+	static short pessoas;
 	static short exigencias;
 	static short testes;
-	static boolean achouAmig;
-	static List<String> fila;
+	static boolean achouAmigo;
 	
 	public static void main(String[] args) throws IOException {
+		reader = new BufferedReader(new InputStreamReader(System.in));
+		
 		leEntrada();
-		if (qtdAmigos > 0) {
-			exigenciaAmigos = new HashMap<>();
-			amigos = new StringBuilder();
+		if (pessoas > 0) {
+			amigoExigencias = new HashMap<>();
 			saida = new StringBuilder();
-			fila = new LinkedList<>();
-			amigosExigentes = reader.readLine().split(" ");
+			listaAmigos = new StringBuilder();
+			listaExigenciasAmigo = new StringBuilder();
 			geraSaida();
-			while (qtdAmigos > 0) {
-				amigosExigentes = reader.readLine().split(" ");
+			while (pessoas > 0) {				
 				saida.append('\n');
 				saida.append('\n');
-				geraSaida();
+				listaAmigos.delete(0, listaAmigos.length());
+				geraSaida();				
 			}
 		}
 		System.out.print(saida);
 	}
+	
+	public static void geraPessoas() throws IOException {
+		entrada = reader.readLine().split(" ");
+	
+		listaPessoas = new StringBuilder();
+		for (int pessoa = 0; pessoa < entrada.length; pessoa++) {
+			listaPessoas.append(entrada[pessoa]);
+			listaPessoas.append(" ");
+		}
+	}	
 	
 	public static void geraSaida() throws IOException {
 		testes++;
 		saida.append("Teste ");
 		saida.append(testes);
 		saida.append('\n');
-		saida.append(retornaSequenciaAmigos());
+		saida.append(retornaSequencia());
 		leEntrada();
 	}
 	
-	public static String retornaSequenciaAmigos() throws IOException {
-		geraExigenciaAmigos();
-		if (testes > 3 && amigosExi == qtdAmigos && amigos.length() <= 0 && qtdAmigos == 3)
-			qtdAmigos = Short.parseShort(entrada[-1]);
-		if (amigos.length() > 0) {
-			achouAmig = false;
-			amigosProc = 0;
-			while (!fila.isEmpty()) {
-				String amigo = fila.remove(0);
-				amigosProc++;
-				String[] amigosExig = exigenciaAmigos.get(amigo);
-				StringBuilder amigosAux = new StringBuilder();
-				for (int amig = 0; amig < amigosExig.length; amig++) {
-					if (amigos.indexOf(amigosExig[amig]) < 0) {
-						amigosAux.append(amigosExig[amig]);
-						amigosAux.append(' ');
+	public static String retornaSequencia() throws IOException {
+		geraPessoas();
+		geraExigencias();
+		
+		if (!achouAmigo)
+			return "impossivel";
+		
+		String amigo;
+		while (listaPessoas.length() > 0) {
+			achouAmigo = false;
+			entrada = listaPessoas.toString().split(" ");
+			for (int pessoa = 0; pessoa < entrada.length; pessoa++) {
+				amigo = entrada[pessoa];
+				exigenciasAmigo = amigoExigencias.get(amigo);
+				
+				for (int amigoExigencia = 0; amigoExigencia < exigenciasAmigo.length; amigoExigencia++) {
+					if (listaAmigos.indexOf(exigenciasAmigo[amigoExigencia]) < 0) {
+						listaExigenciasAmigo.append(exigenciasAmigo[amigoExigencia]);
+						listaExigenciasAmigo.append(' ');
 					}
+					else
+						achouAmigo = true;
 				}
-				if (amigosAux.length() > 0) {
-					amigosAux.delete(amigosAux.length()-1, amigosAux.length());
-					String[] amigosExigAux = amigosAux.toString().split(" ");
-					exigenciaAmigos.put(amigo, amigosExigAux);
-					fila.add(amigo);
+				
+				if (listaExigenciasAmigo.length() > 0) {
+					listaExigenciasAmigo.delete(listaExigenciasAmigo.length()-1, listaExigenciasAmigo.length());
+					exigenciasAmigo = listaExigenciasAmigo.toString().split(" ");
+					amigoExigencias.put(amigo, exigenciasAmigo);
+					listaExigenciasAmigo.delete(0, listaExigenciasAmigo.length());
 				}
-				else {
-					if (amigos.indexOf(amigo) == -1) {
-						amigos.append(' ');
-						amigos.append(amigo);
-						amigosExi--;
-						achouAmig = true;
+				else
+					if (listaAmigos.indexOf(amigo) == -1) {						
+						listaAmigos.append(amigo);
+						listaAmigos.append(' ');
+						listaPessoas.delete(listaPessoas.indexOf(amigo), listaPessoas.indexOf(amigo) + amigo.length()+1);
 					}
-				}
-				if (amigosProc >= amigosExi) {
-					if (achouAmig) {
-						amigosProc = 0;
-						achouAmig = false;
-					}
-					else						
-						return "impossivel";
-				}
 			}
-			amigos.delete(0, 1);
-			return amigos.toString();
+			if (!achouAmigo)
+				return "impossivel"; 
 		}
-		return "impossivel";
+		listaAmigos.delete(listaAmigos.length()-1, listaAmigos.length());
+		return listaAmigos.toString();		
 	}
 	
-	public static void geraExigenciaAmigos() throws IOException {
-		fila.clear();
-		exigenciaAmigos.clear();
-		amigos.delete(0, amigos.length());
-		amigosExi = qtdAmigos;
-		for (int amig = 0; amig < qtdAmigos; amig++) {
+	public static void geraExigencias() throws IOException {
+		entrada = reader.readLine().split(" ");
+		
+		listaPessoas = new StringBuilder();
+		for (int pessoa = 0; pessoa < entrada.length; pessoa++) {
+			listaPessoas.append(entrada[pessoa]);
+			listaPessoas.append(" ");
+		}
+		
+		amigoExigencias.clear();
+		achouAmigo = false;
+		for (int pessoa = 0; pessoa < pessoas; pessoa++) {
 			entrada = reader.readLine().split(" ");
 			
 			exigencias = Short.parseShort(entrada[1]);
 			if (exigencias == 0) {
-				amigos.append(' ');
-				amigos.append(entrada[0]);
-				amigosExi--;
+				achouAmigo = true;
+				listaAmigos.append(entrada[0]);
+				listaAmigos.append(" ");
+				listaPessoas.delete(listaPessoas.indexOf(entrada[0]), listaPessoas.indexOf(entrada[0]) + entrada[0].length()+1);
 			}
 			else {
-				String[] amigosExig = new String[exigencias];
-				for (short exig = 0; exig < exigencias; exig++) {
-					amigosExig[exig] = entrada[exig+2];
-				}
-				exigenciaAmigos.put(entrada[0], amigosExig);
-				fila.add(entrada[0]);
+				exigenciasAmigo = new String[exigencias];
+				for (short exigencia = 0; exigencia < exigencias; exigencia++)
+					exigenciasAmigo[exigencia] = entrada[exigencia+2];
+
+				amigoExigencias.put(entrada[0], exigenciasAmigo);
 			}
 		}
 	}
 	
 	public static void leEntrada() throws IOException {
-		reader = new BufferedReader(new InputStreamReader(System.in));
-		qtdAmigos = Short.parseShort(reader.readLine());
+		pessoas = Short.parseShort(reader.readLine());
 	}
 }
