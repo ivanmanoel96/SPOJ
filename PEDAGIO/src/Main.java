@@ -19,7 +19,6 @@ public class Main {
 	
 	public static void main(String[] args) throws IOException {
 		reader = new BufferedReader(new InputStreamReader(System.in));
-		
 		leEntrada();
 		if (cidades > 0) {
 			saida = new StringBuilder();
@@ -45,17 +44,11 @@ public class Main {
 	
 	public static void geraPegadios() throws IOException {
 		geraAdjacencias();
-		
-		testes++;
-		saida.append("Teste ");
-		saida.append(testes);
-		saida.append('\n');
-		
 		numPedagios = new short[cidades+1];
 		cidadesSort = new short[cidades+1];
 		fila.add(cidadeSaida);
 		while (!fila.isEmpty()) {
-			cidadePai = fila.remove(0);	    		
+			cidadePai = fila.remove(0);
     		if (numPedagios[cidadePai] < pedagios) {
     			short[] adjacenc = adjacencias.get(cidadePai);
     			if (adjacenc != null) 
@@ -70,20 +63,22 @@ public class Main {
 		    		}
     		}
 		}
-		adicionaSaida();
-		leEntrada();
+		geraSaida();
 	}
 	
-	public static void adicionaSaida() {
+	public static void geraSaida() throws IOException {
+		testes++;
+		saida.append("Teste ");
+		saida.append(testes);
+		saida.append('\n');
 		Arrays.sort(cidadesSort);
 		for (short i = 0; i < cidadesSort.length; i++) 
-        {
 			if (cidadesSort[i] > 0) {
 	            saida.append(cidadesSort[i]);
 	            saida.append(' ');
 	        }
-        }
 		saida.delete(saida.length()-1, saida.length());
+		leEntrada();
 	}
 	
 	public static void geraAdjacencias() throws IOException {
