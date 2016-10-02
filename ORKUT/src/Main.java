@@ -82,16 +82,16 @@ public class Main {
 	
 	public static void geraAmigos() throws IOException {
 		pessoas = reader.readLine().split(" ");
-		geraExigenciasAmigo();
+		geraExigencias();
 	}
 	
-	public static void geraExigenciasAmigo() throws IOException {
-		for (int pessoa = 0; pessoa < amigos; pessoa++) {
+	public static void geraExigencias() throws IOException {
+		for (short pessoa = 0; pessoa < amigos; pessoa++) {
 			entrada = reader.readLine().split(" ");
 			exigencias = Short.parseShort(entrada[1]);		
 			if (exigencias > 0) {
 				exigenciasPessoa.append(entrada[0]);
-				for (int exigencia = 0; exigencia < exigencias; exigencia++) {
+				for (short exigencia = 0; exigencia < exigencias; exigencia++) {
 					exigenciasPessoa.append(" ");
 					exigenciasPessoa.append(entrada[exigencia+2]);
 					exigenciasPessoa.append(" ");
