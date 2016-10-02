@@ -24,8 +24,8 @@ public class Main {
 			fila = new LinkedList<>();
 			geraSaida();
 			while (amigos > 0) {				
-				saida.append("\n");
-				saida.append("\n");
+				saida.append('\n');
+				saida.append('\n');
 				exigenciasPessoa.delete(0, exigenciasPessoa.length());
 				sequenciaAmigos.delete(0, sequenciaAmigos.length());
 				fila.clear();
@@ -43,7 +43,7 @@ public class Main {
 		testes++;
 		saida.append("Teste ");
 		saida.append(testes);
-		saida.append("\n");
+		saida.append('\n');
 		saida.append(retornaSequenciaAmigos());		
 		lePessoas();
 	}
@@ -54,10 +54,10 @@ public class Main {
 			while (!fila.isEmpty()) {
 				String nomeAmigo = fila.remove(0);
 				sequenciaAmigos.append(nomeAmigo);
-				sequenciaAmigos.append(" ");			
+				sequenciaAmigos.append(' ');
 				String exigencias = exigenciasPessoa.toString();
 				if (exigencias.length() > 0) {
-					exigencias = exigencias.replace(" "+nomeAmigo+" ", "");
+					exigencias = exigencias.replace(' '+nomeAmigo+' ', "");
 					exigenciasPessoa.delete(0, exigenciasPessoa.length());
 					entrada = exigencias.split("\n");
 					for (short pessoa = 0; pessoa < entrada.length; pessoa++) {
@@ -66,7 +66,7 @@ public class Main {
 							fila.add(exigenciasAmigo[0]);
 						else {
 							exigenciasPessoa.append(entrada[pessoa]);
-							exigenciasPessoa.append("\n");
+							exigenciasPessoa.append('\n');
 						}
 					}
 				}
@@ -92,11 +92,11 @@ public class Main {
 			if (exigencias > 0) {
 				exigenciasPessoa.append(entrada[0]);
 				for (short exigencia = 0; exigencia < exigencias; exigencia++) {
-					exigenciasPessoa.append(" ");
+					exigenciasPessoa.append(' ');
 					exigenciasPessoa.append(entrada[exigencia+2]);
-					exigenciasPessoa.append(" ");
+					exigenciasPessoa.append(' ');
 				}
-				exigenciasPessoa.append("\n");
+				exigenciasPessoa.append('\n');
 			}
 			else
 				fila.add(entrada[0]);
