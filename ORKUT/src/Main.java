@@ -26,7 +26,6 @@ public class Main {
 				saida.append('\n');
 				exigenciasPessoa.delete(0, exigenciasPessoa.length());
 				sequenciaAmigos.delete(0, sequenciaAmigos.length());
-				fila.clear();
 				geraSaida();				
 			}
 		}
