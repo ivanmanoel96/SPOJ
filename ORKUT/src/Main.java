@@ -8,7 +8,6 @@ public class Main {
 	static short amigos;
 	static short exigencias;
 	static short testes;
-	static String[] pessoas;
 	static List<String> fila;
 	static StringBuilder exigenciasPessoa;
 	static StringBuilder sequenciaAmigos;
@@ -81,7 +80,7 @@ public class Main {
 	}
 	
 	public static void geraAmigos() throws IOException {
-		pessoas = reader.readLine().split(" ");
+		reader.readLine();
 		geraExigencias();
 	}
 	
