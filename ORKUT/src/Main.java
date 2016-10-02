@@ -14,7 +14,6 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		reader = new BufferedReader(new InputStreamReader(System.in));
-		
 		lePessoas();
 		if (amigos > 0) {
 			saida = new StringBuilder();
@@ -34,21 +33,18 @@ public class Main {
 		System.out.print(saida);
 	}
 	
-	public static void geraPessoas() throws IOException {
-		entrada = reader.readLine().split(" ");
-	}	
-	
 	public static void geraSaida() throws IOException {
 		testes++;
 		saida.append("Teste ");
 		saida.append(testes);
 		saida.append('\n');
-		saida.append(retornaSequenciaAmigos());		
+		saida.append(retornaSequencia());		
 		lePessoas();
 	}
 	
-	public static String retornaSequenciaAmigos() throws IOException {
-		geraAmigos();
+	public static String retornaSequencia() throws IOException {
+		reader.readLine();
+		geraExigencias();
 		if (!fila.isEmpty()) {
 			while (!fila.isEmpty()) {
 				String nomeAmigo = fila.remove(0);
@@ -77,11 +73,6 @@ public class Main {
 			return sequenciaAmigos.toString();
 		}
 		return "impossivel";
-	}
-	
-	public static void geraAmigos() throws IOException {
-		reader.readLine();
-		geraExigencias();
 	}
 	
 	public static void geraExigencias() throws IOException {
