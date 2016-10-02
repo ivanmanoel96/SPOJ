@@ -7,19 +7,21 @@ public class Main {
 	static short media;
 	static short maiorMedia;
 	static StringBuilder saida;
+	static StringBuilder alunosTurma;
 	static String[] entrada;
-	static short alunIni;
 	
 	public static void main(String[] args) throws IOException {
 		reader = new BufferedReader(new InputStreamReader(System.in));
-		saida = new StringBuilder();
-		
-		alunos = Short.parseShort(reader.readLine());		
-		avaliaMedia();
-		while (alunos > 0) {
-			saida.append('\n');
-			saida.append('\n');
+		leAlunos();
+		if (alunos > 0) {
+			saida = new StringBuilder();
+			alunosTurma = new StringBuilder();
 			avaliaMedia();
+			while (alunos > 0) {
+				saida.append('\n');
+				saida.append('\n');
+				avaliaMedia();
+			}
 		}
 		System.out.print(saida);
 	}
@@ -30,20 +32,24 @@ public class Main {
 		saida.append(turmas);
 		saida.append('\n');
 		maiorMedia = -1;
-		alunIni = (short)saida.length();
 		for (short aluno = 0; aluno < alunos; aluno++) {
 			entrada = reader.readLine().split(" ");
 			media = Short.parseShort(entrada[1]);
 			if (media >= maiorMedia) {
 				if (media > maiorMedia)
-					saida.delete(alunIni, saida.length());
+					alunosTurma.delete(0, alunosTurma.length());
 				
 				maiorMedia = media;
-				saida.append(entrada[0]);
-				saida.append(' ');
+				alunosTurma.append(entrada[0]);
+				alunosTurma.append(' ');
 			}
 		}
-		saida.delete(saida.length()-1, saida.length());
+		alunosTurma.delete(alunosTurma.length()-1, alunosTurma.length());
+		saida.append(alunosTurma);
+		leAlunos();
+	}
+	
+	public static void leAlunos() throws IOException {
 		alunos = Short.parseShort(reader.readLine());
 	}
 }
